@@ -7,7 +7,6 @@ export async function GET(request, { params }) {
       getCabin(cabinId),
       getBookedDatesByCabinId(cabinId),
     ]);
-
     return Response.json({
       cabin,
       bookedDates,
