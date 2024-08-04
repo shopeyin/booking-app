@@ -1,6 +1,6 @@
+import { notFound } from "next/navigation";
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
-import { notFound } from "next/navigation";
 
 /////////////
 // GET
@@ -12,9 +12,11 @@ export async function getCabin(id) {
     .eq("id", id)
     .single();
 
-  // await new Promise((res) => setTimeout(res, 5000));
+  // For testing
+  // await new Promise((res) => setTimeout(res, 2000));
 
   if (error) {
+    console.error(error);
     notFound();
   }
 
@@ -41,7 +43,8 @@ export const getCabins = async function () {
     .select("id, name, maxCapacity, regularPrice, discount, image")
     .order("name");
 
-  // await new Promise((res) => setTimeout(res, 1000));
+  // For testing
+  // await new Promise((res) => setTimeout(res, 2000));
 
   if (error) {
     console.error(error);
@@ -51,6 +54,7 @@ export const getCabins = async function () {
   return data;
 };
 
+// Guests are uniquely identified by their email address
 export async function getGuest(email) {
   const { data, error } = await supabase
     .from("guests")
@@ -58,12 +62,11 @@ export async function getGuest(email) {
     .eq("email", email)
     .single();
 
-  
+  // No error here! We handle the possibility of no guest in the sign in callback
   return data;
 }
 
 export async function getBooking(id) {
-  
   const { data, error, count } = await supabase
     .from("bookings")
     .select("*")
@@ -90,7 +93,7 @@ export async function getBookings(guestId) {
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded", error);
+    throw new Error("Bookings could not get loaded");
   }
 
   return data;
@@ -164,7 +167,7 @@ export async function createGuest(newGuest) {
 
   return data;
 }
-
+/*
 export async function createBooking(newBooking) {
   const { data, error } = await supabase
     .from("bookings")
@@ -180,10 +183,11 @@ export async function createBooking(newBooking) {
 
   return data;
 }
-
+*/
 /////////////
 // UPDATE
 
+/*
 // The updatedFields is an object which should ONLY contain the updated data
 export async function updateGuest(id, updatedFields) {
   const { data, error } = await supabase
@@ -227,3 +231,4 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+*/

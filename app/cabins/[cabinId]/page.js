@@ -1,33 +1,30 @@
 import Cabin from "@/app/_components/Cabin";
 import Reservation from "@/app/_components/Reservation";
 import Spinner from "@/app/_components/Spinner";
-
 import { getCabin, getCabins } from "@/app/_lib/data-service";
 
-
-
+import Image from "next/image";
 import { Suspense } from "react";
 
-export async function generateMetadata({ params: { cabinId } }) {
-  const cabin = await getCabin(cabinId);
+// export const metadata = {
+//   title: "Cabin",
+// };
 
-  const { name } = cabin;
-
+export async function generateMetadata({ params }) {
+  const { name } = await getCabin(params.cabinId);
   return { title: `Cabin ${name}` };
 }
 
 export async function generateStaticParams() {
-  let cabins = await getCabins();
+  const cabins = await getCabins();
 
-  let ids = cabins.map((cabin) => {
-    return { cabinId: String(cabin.id) };
-  });
+  const ids = cabins.map((cabin) => ({ cabinId: String(cabin.id) }));
 
   return ids;
 }
 
-export default async function Page({ params: { cabinId } }) {
-  const cabin = await getCabin(cabinId);
+export default async function Page({ params }) {
+  const cabin = await getCabin(params.cabinId);
 
   return (
     <div className="max-w-6xl mx-auto mt-8">

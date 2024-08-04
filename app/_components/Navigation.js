@@ -1,7 +1,8 @@
 import Link from "next/link";
-import {auth} from "../_lib/auth"
+import { auth } from "../_lib/auth";
+
 export default async function Navigation() {
-const session  = await auth()
+  const session = await auth();
 
   return (
     <nav className="z-10 text-xl">
@@ -23,27 +24,27 @@ const session  = await auth()
           </Link>
         </li>
         <li>
-          {
-            session?.user?.image ? (
-              <Link
-            href="/account"
-            className="hover:text-accent-400 transition-colors flex items-center gap-4"
-          >
-            <img className="h-8 rounded-full" src={session?.user?.image} alt={session?.user?.name} referrerPolicy="no-referrer" />
-            <span>Guest area</span>
-          </Link>
-            )
-
-            :
-
+          {session?.user?.image ? (
             <Link
-            href="/account"
-            className="hover:text-accent-400 transition-colors"
-          >
-            Guest area
-          </Link>
-          }
-         
+              href="/account"
+              className="hover:text-accent-400 transition-colors flex items-center gap-4"
+            >
+              <img
+                className="h-8 rounded-full"
+                src={session.user.image}
+                alt={session.user.name}
+                referrerPolicy="no-referrer"
+              />
+              <span>Guest area</span>
+            </Link>
+          ) : (
+            <Link
+              href="/account"
+              className="hover:text-accent-400 transition-colors"
+            >
+              Guest area
+            </Link>
+          )}
         </li>
       </ul>
     </nav>
